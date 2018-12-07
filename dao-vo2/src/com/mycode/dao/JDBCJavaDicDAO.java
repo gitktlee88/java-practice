@@ -1,5 +1,6 @@
 package com.mycode.dao;
 
+import java.awt.Panel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import com.mycode.vo.Word;
@@ -20,6 +23,15 @@ import com.mycode.vo.Word;
 public class JDBCJavaDicDAO implements JavaDicDAO {
 	
 	Connection conn = null;
+	private static PreparedStatement statement;
+	private static JPanel textPanel;
+	public static JTextArea textArea;
+	public static JComboBox comboBox;
+	
+	public JDBCJavaDicDAO(JTextArea textAreaParam, JComboBox comboBoxParam) {
+		textArea = textAreaParam;
+		comboBox = comboBoxParam;
+	}
 	     
     public void closeConnection(){
         try {
@@ -43,7 +55,8 @@ public class JDBCJavaDicDAO implements JavaDicDAO {
         return conn;
     }
 
-    public void sqlQueryDisplay(String s, JTextArea textArea) {
+    //public void sqlQueryDisplay(String s, JTextArea textArea) {
+    public void sqlQueryDisplay(String s) {
         try {
         	//if(conn == null) conn = getConnection();
         	conn = getConnection();
@@ -64,14 +77,16 @@ public class JDBCJavaDicDAO implements JavaDicDAO {
             while (resultSet.next()) {
                 textArea.setText(resultSet.getString(2));
             }
-
+            
+            //closeConnection();
+            
         } catch (Exception ex) {
             //Logger.getLogger(JavaDicMain.class.getName()).log(Level.SEVERE, null, ex);
         	System.out.print(ex);
         }
     }
 
-    public void sqlQueryList(JComboBox combo, Vector vectorCombo) {
+    public void sqlQueryList(Vector vectorCombo) {
 
     	try {
         	if(conn == null) conn = getConnection();
@@ -80,14 +95,16 @@ public class JDBCJavaDicDAO implements JavaDicDAO {
             // a static SQL statement and returning the results it produces.
             Statement stmt = conn.createStatement();
 
+            comboBox.removeAllItems();
+            vectorCombo.clear();            
+            
+            PreparedStatement statement = conn.prepareStatement("select word FROM words");
+
             // start a transaction
             conn.setAutoCommit(false);
 
-            combo.removeAllItems();
-            vectorCombo.clear();
-
-            // get all of the the records from the wordstable           
-            ResultSet rs = stmt.executeQuery("SELECT word FROM words");
+            // get records from the words table
+            ResultSet rs = statement.executeQuery();
             
             // iterate the result set and get one row at a time
             while (rs.next()) {
@@ -115,5 +132,80 @@ public class JDBCJavaDicDAO implements JavaDicDAO {
         }
 
     }
+
+
+	@Override
+	//public void sqlQueryDelete(JComboBox combo, String s, JTextArea textArea,  Vector vectorCombo) {
+	public void sqlQueryDelete(String s, Vector vectorCombo) {	
+		// TODO Auto-generated method stub
+		try {
+			statement = conn.prepareStatement("DELETE FROM words WHERE word=?");		
+			statement.setString(1, s);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.print(e);
+		}
+        textArea.setText("");
+        JOptionPane.showMessageDialog(null, s + " delete completed");
+        sqlQueryList(vectorCombo);
+	}
+
+
+	@Override
+	//public void sqlQueryAdd(JComboBox combo, String name,  JTextArea textArea, Vector vectorCombo) {
+	public void sqlQueryAdd(String name, Vector vectorCombo) {
+		// TODO Auto-generated method stub
+		try {
+			statement = conn.prepareStatement("INSERT INTO words VALUES(?, ?)");		
+			statement.setString(1, name);
+			statement.setString(2, "put contents here & click Update!");   
+	        // add a word into the words table
+	        statement.executeUpdate();
+	        
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.print(e);
+		}
+        
+        sqlQueryList(vectorCombo);
+        comboBox.setSelectedItem(name);
+        //JOptionPane.showMessageDialog(null, name + " needs to be updated with contents");
+        sqlQueryDisplay(name);
+        
+	}
+
+	@Override
+	//public void sqlQueryUpdate(JComboBox combo, String name, JTextArea textArea, Vector vectorCombo) {
+	public void sqlQueryUpdate(String name, Vector vectorCombo) {
+		// TODO Auto-generated method stub
+		String strings = textArea.getText();
+		
+		try {
+			statement = conn.prepareStatement("UPDATE words SET descr = ? WHERE word = ?");
+		
+			if (strings.equals("")) {
+		        JOptionPane.showMessageDialog(null, name + " contents are empty!!");
+		        return;
+		    } //no value check
+	
+		    statement.setString(1, strings);
+		    statement.setString(2, name);
+	
+		    // add a word into the words table
+		    statement.executeUpdate();
+		    
+		    sqlQueryList(vectorCombo);
+		    comboBox.setSelectedItem(name);
+		    JOptionPane.showMessageDialog(null, name + " update completed");
+		    sqlQueryDisplay(name);	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.print(e);
+		}
+	}
  
 }

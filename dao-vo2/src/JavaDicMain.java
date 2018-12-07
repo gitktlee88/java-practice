@@ -1,6 +1,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -49,13 +50,13 @@ import javax.swing.JList;
 import com.mycode.dao.JDBCJavaDicDAO;
 import com.mycode.vo.Word;
 
-public class JavaDicMain extends JFrame {
+public class JavaDicMain extends JFrame implements ActionListener {
 
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 1L;    
+    
     final int MAX_INPUT_LENGTH = 20;
     final int PANEL_WIDTH = 770;
     final int PANEL_HEIGHT = 680;
@@ -68,10 +69,14 @@ public class JavaDicMain extends JFrame {
     private JTextField textfield = new JTextField(10); //for search
     
     private final JButton buttons[]; 
-    private JComboBox comboBox = new JComboBox();
-    private JTextArea textArea = new JTextArea(36, 60);
-    //private final JPanel textPanel = new JPanel();
+    JButton button; 
+    private static JComboBox comboBox = new JComboBox();
+    public static JTextArea textArea = new JTextArea(36, 60);
+    private final JPanel textPanel = new JPanel();
     final static String CANCEL_ACTION = "cancel-search";
+    
+    private static JDBCJavaDicDAO jdbcdao = new JDBCJavaDicDAO(textArea, comboBox);
+    private static PreparedStatement statement;
     
     String combotext[] = {};
     @SuppressWarnings("rawtypes")
@@ -124,7 +129,8 @@ public class JavaDicMain extends JFrame {
         //combobox
         comboBox.setMaximumRowCount(30);
         comboBox.setForeground(Color.blue);
-        comboBox.setPrototypeDisplayValue("XXXXXXXXXXXXXXXXXX");  //Fix JComboBox width
+      //Fix JComboBox width which of the size is changing
+        comboBox.setPrototypeDisplayValue("XXXXXXXXXXXXXXXXXX");  
         c.fill = GridBagConstraints.HORIZONTAL;
         //c.fill = GridBagConstraints.NONE;
         c.weightx = 0.5;
@@ -132,53 +138,28 @@ public class JavaDicMain extends JFrame {
         c.gridx = 3;         //third column
         c.gridy = 0;         //first row
         northPanel.add(comboBox, c);
-
-        /*
-        //instance JDBCJavaDicDAO
-        JDBCJavaDicDAO jdbcdao = new JDBCJavaDicDAO();
-        //fill in combo here
-        ActionListener cbActionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String s = (String) comboBox.getSelectedItem();
-
-                if (s != null) {
-                	jdbcdao.sqlQueryDisplay(s, textArea);
-                }
-            }
-        };
-                
-        comboBox.addActionListener(cbActionListener);        
-                    
+                   
         //get to fill in combobox
-        jdbcdao.sqlQueryList(comboBox, vectorCombo);
+        jdbcdao.sqlQueryList(vectorCombo);
         
-        */
-        
-        
-        
+        comboBox.addActionListener(this);        
         comboBox.setEditable( true );     
         
-        //  Get handle for textfield component.
-        final JTextField tf = (JTextField)comboBox.getEditor().getEditorComponent();
-        
+        //  Get handle for textfield component for keyAdapter.
+        final JTextField tf = (JTextField)comboBox.getEditor().getEditorComponent();        
 		tf.addKeyListener(new ComboListener(comboBox, vectorCombo));
 		
         comboBox.addPopupMenuListener(new PopupMenuListener() {
             public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
               JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
-              BasicComboPopup popup = (BasicComboPopup) comboBox
-                  .getAccessibleContext().getAccessibleChild(0);
+              BasicComboPopup popup = (BasicComboPopup) comboBox.getAccessibleContext().getAccessibleChild(0);
               JList list = popup.getList();
               list.setSelectedIndex(2);
             }
-
             public void popupMenuCanceled(PopupMenuEvent e) {
             }
-
             public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
             }
-
           });        
         
         buttons = new JButton[4];     
@@ -198,18 +179,13 @@ public class JavaDicMain extends JFrame {
             c.gridx = i;
             c.gridy = 1;
             northPanel.add(buttons[i], c);
-            //buttons[i].addActionListener(this);
-            buttons[i].addActionListener(new ActionControl(comboBox,buttons[0],textArea, vectorCombo));
+            buttons[i].addActionListener(this);
         }
-
-        comboBox.addActionListener(new ActionControl(comboBox,buttons[0],textArea, vectorCombo));
-        
         
         // Construct the southPanel 
         textArea.setFont(textArea.getFont().deriveFont(Font.ITALIC, 16f)); // will only change size to 12pt
-        //textArea.setFont(new Font("monospaced", Font.PLAIN, 15));
         c.fill = GridBagConstraints.HORIZONTAL;
-        //c.ipady = 40;      //make this component tall
+        //c.ipady = 40;      //make this component taller
         c.weightx = 0.5;
         c.gridwidth = 6;
         c.gridx = 0;
@@ -236,16 +212,101 @@ public class JavaDicMain extends JFrame {
 	}    
     
 
-
-
     /**
      * @param args the command line arguments
      */
    
     public static void main(String[] args) {
-        JavaDicMain form = new JavaDicMain();
-        form.setVisible(true);
+        //JavaDicMain form = new JavaDicMain();
+        //form.setVisible(true);
+
+    	/*
+    	The complete Swing processing is done in a thread called EDT (Event Dispatching Thread).
+    	Therefore you would block the GUI if you would compute some long lasting calculations 
+    	within this thread.
+		The way to go here is to process your calculation within a different thread, so your 
+		GUI stays responsive. At the end you want to update your GUI, which have to be done 
+		within the EDT. Now EventQueue.invokeLater comes into play. 
+		It posts an event (your Runnable) at the end of Swings event list and is processed 
+		after all previous GUI events are processed.
+		
+		Also the usage of EventQueue.invokeAndWait is possible here. 
+		The difference is, that your calculation thread blocks until your GUI is updated. 
+		So it is obvious that this must not be used from the EDT.
+
+		Be careful not to update your Swing GUI from a different thread. 
+		In most cases this produces some strange updating/refreshing issues.
+    	 */
+    	
+        EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+            	JavaDicMain form = new JavaDicMain();
+                form.setVisible(true);
+            }
+        });        
+        
     }
 
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		String s = (String) comboBox.getSelectedItem();
+
+        if (e.getSource() == buttons[1]) {
+        	int optionType = JOptionPane.YES_NO_OPTION; // YES+NO
+            int messageType = JOptionPane.PLAIN_MESSAGE; // no standard icon
+            ImageIcon icon = new ImageIcon("blob.gif", "blob");
+            int res = JOptionPane.showConfirmDialog(null, "Are you sure?", "Delete confirmation!",
+                    optionType, messageType, icon);
+
+            if (res == JOptionPane.NO_OPTION) {
+                return;
+            }
+            // sqlQueryDelete(conn, (String)cb.getSelectedItem(), textArea);
+            jdbcdao.sqlQueryDelete(s, vectorCombo);
+            return;
+        } else if (e.getSource() == buttons[2]) {
+            textArea.selectAll();
+            textArea.setText("");
+        } else if (e.getSource() == buttons[3]) {
+        	//Pop up...
+            String name = JOptionPane.showInputDialog((textPanel), "What is the word to add?", null);
+            // create a statement: This object will be used for executing
+            // a static SQL statement and returning the results it produces. 
+            if (name == null) //null pointre when cancel or close
+            {
+                return;
+            } else if (name.equals("")) //no value check
+            {
+                return;
+            }
+            
+            jdbcdao.sqlQueryAdd(name, vectorCombo);
+            return;              
+
+        } else if (e.getSource() == buttons[0]) {
+           
+            if (s == null) //null pointre when cancel or close
+            {
+                return;
+            } else if (s.equals("")) //no value check
+            {
+                return;
+            }         
+            
+            jdbcdao.sqlQueryUpdate(s, vectorCombo);
+
+    } else if (s != null) 
+        	 {
+        	//System.out.print(e.getSource());
+        	jdbcdao.sqlQueryDisplay(s);
+        	return;
+        }        
+        
+	}
+
    
-}
+}  //end of class
