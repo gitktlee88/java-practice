@@ -216,8 +216,7 @@ public class JavaDicMain extends JFrame {
 
     /**
      * @param args the command line arguments
-     */
-   
+     */   
     public static void main(String[] args) {
         //JavaDicMain form = new JavaDicMain();
         //form.setVisible(true);
@@ -226,19 +225,19 @@ public class JavaDicMain extends JFrame {
     	The complete Swing processing is done in a thread called EDT (Event Dispatching Thread).
     	Therefore you would block the GUI if you would compute some long lasting calculations 
     	within this thread.
-		The way to go here is to process your calculation within a different thread, so your 
-		GUI stays responsive. At the end you want to update your GUI, which have to be done 
-		within the EDT. Now EventQueue.invokeLater comes into play. 
-		It posts an event (your Runnable) at the end of Swings event list and is processed 
-		after all previous GUI events are processed.
+	The way to go here is to process your calculation within a different thread, so your 
+	GUI stays responsive. At the end you want to update your GUI, which have to be done 
+	within the EDT. Now EventQueue.invokeLater comes into play. 
+	It posts an event (your Runnable) at the end of Swings event list and is processed 
+	after all previous GUI events are processed.
 		
-		Also the usage of EventQueue.invokeAndWait is possible here. 
-		The difference is, that your calculation thread blocks until your GUI is updated. 
-		So it is obvious that this must not be used from the EDT.
+	Also the usage of EventQueue.invokeAndWait is possible here. 
+	The difference is, that your calculation thread blocks until your GUI is updated. 
+	So it is obvious that this must not be used from the EDT.
 
-		Be careful not to update your Swing GUI from a different thread. 
-		In most cases this produces some strange updating/refreshing issues.
-    	 */
+	Be careful not to update your Swing GUI from a different thread. 
+	In most cases this produces some strange updating/refreshing issues.
+    	*/
     	
         EventQueue.invokeLater(new Runnable()
         {
@@ -250,65 +249,5 @@ public class JavaDicMain extends JFrame {
         });        
         
     }
-
-    /*
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		String s = (String) comboBox.getSelectedItem();
-
-        if (e.getSource() == buttons[1]) {
-        	int optionType = JOptionPane.YES_NO_OPTION; // YES+NO
-            int messageType = JOptionPane.PLAIN_MESSAGE; // no standard icon
-            ImageIcon icon = new ImageIcon("blob.gif", "blob");
-            int res = JOptionPane.showConfirmDialog(null, "Are you sure?", "Delete confirmation!",
-                    optionType, messageType, icon);
-
-            if (res == JOptionPane.NO_OPTION) {
-                return;
-            }
-            // sqlQueryDelete(conn, (String)cb.getSelectedItem(), textArea);
-            jdbcdao.sqlQueryDelete(s, vectorCombo);
-            return;
-        } else if (e.getSource() == buttons[2]) {
-            textArea.selectAll();
-            textArea.setText("");
-        } else if (e.getSource() == buttons[3]) {
-        	//Pop up...
-            String name = JOptionPane.showInputDialog((textPanel), "What is the word to add?", null);
-            // create a statement: This object will be used for executing
-            // a static SQL statement and returning the results it produces. 
-            if (name == null) //null pointre when cancel or close
-            {
-                return;
-            } else if (name.equals("")) //no value check
-            {
-                return;
-            }
-            
-            jdbcdao.sqlQueryAdd(name, vectorCombo);
-            return;              
-
-        } else if (e.getSource() == buttons[0]) {
-           
-            if (s == null) //null pointre when cancel or close
-            {
-                return;
-            } else if (s.equals("")) //no value check
-            {
-                return;
-            }         
-            
-            jdbcdao.sqlQueryUpdate(s, vectorCombo);
-
-    } else if (s != null) 
-        	 {
-        	//System.out.print(e.getSource());
-        	jdbcdao.sqlQueryDisplay(s);
-        	return;
-        }        
-        
-	}
-	*/
    
 }  //end of class
