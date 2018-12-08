@@ -1,5 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -7,16 +9,18 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import com.mycode.dao.JDBCJavaDicDAO;
 
-public class ActionControl implements ActionListener 
+public class ActionControler extends KeyAdapter implements ActionListener 
 {    
 	Connection conn = null;
 	private static PreparedStatement statement;
@@ -27,10 +31,10 @@ public class ActionControl implements ActionListener
 	Vector vectorCombo;	   
     private static JDBCJavaDicDAO jdbcdao;
     	
-	public ActionControl(JComboBox cbListenerParam, JButton buttonParam[], 
+	public ActionControler(JComboBox comboBoxParam, JButton buttonParam[], 
 			JTextArea textAreaParam, Vector vectorComboParam)
 	{
-		comboBox = cbListenerParam;
+		comboBox = comboBoxParam;
 		buttons = buttonParam;
 		textArea = textAreaParam;
 		vectorCombo = vectorComboParam;
@@ -94,7 +98,36 @@ public class ActionControl implements ActionListener
         }        
         
 	}
+
+	////////////////////////KeyAdapter////////////////////////////
 	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void keyTyped(KeyEvent key)
+	{
+				// TODO Auto-generated method stub
+				String text = ((JTextField)key.getSource()).getText();
+				comboBox.setModel(new DefaultComboBoxModel(getFilteredList(text)));
+				comboBox.setSelectedIndex(-1);
+				((JTextField)comboBox.getEditor().getEditorComponent()).setText(text);
+				comboBox.showPopup();
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Vector getFilteredList(String text)
+	{
+		Vector v = new Vector();
+		for(int a = 0; a<vectorCombo.size(); a++)
+		{
+			if(vectorCombo.get(a).toString().startsWith(text))
+			{
+				v.add(vectorCombo.get(a).toString());
+			}
+		}
+		return v;
+	}
+
 	
 	
 }

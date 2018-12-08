@@ -50,8 +50,8 @@ import javax.swing.JList;
 import com.mycode.dao.JDBCJavaDicDAO;
 import com.mycode.vo.Word;
 
-public class JavaDicMain extends JFrame implements ActionListener {
-
+//public class JavaDicMain extends JFrame implements ActionListener {
+public class JavaDicMain extends JFrame {
     /**
      *
      */
@@ -68,8 +68,8 @@ public class JavaDicMain extends JFrame implements ActionListener {
     private JLabel label1 = new JLabel(); 
     private JTextField textfield = new JTextField(10); //for search
     
-    private final JButton buttons[]; 
-    JButton button; 
+    private JButton buttons[] = null; 
+    //JButton button; 
     private static JComboBox comboBox = new JComboBox();
     public static JTextArea textArea = new JTextArea(36, 60);
     private final JPanel textPanel = new JPanel();
@@ -142,12 +142,13 @@ public class JavaDicMain extends JFrame implements ActionListener {
         //get to fill in combobox
         jdbcdao.sqlQueryList(vectorCombo);
         
-        comboBox.addActionListener(this);        
+        //comboBox.addActionListener(this);    
+        comboBox.addActionListener(new ActionControler(comboBox, buttons, textArea , vectorCombo));    
         comboBox.setEditable( true );     
         
         //  Get handle for textfield component for keyAdapter.
         final JTextField tf = (JTextField)comboBox.getEditor().getEditorComponent();        
-		tf.addKeyListener(new ComboListener(comboBox, vectorCombo));
+		tf.addKeyListener(new ActionControler(comboBox, buttons, textArea , vectorCombo));
 		
         comboBox.addPopupMenuListener(new PopupMenuListener() {
             public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
@@ -179,7 +180,8 @@ public class JavaDicMain extends JFrame implements ActionListener {
             c.gridx = i;
             c.gridy = 1;
             northPanel.add(buttons[i], c);
-            buttons[i].addActionListener(this);
+            //buttons[i].addActionListener(this);
+            buttons[i].addActionListener(new ActionControler(comboBox, buttons, textArea , vectorCombo));
         }
         
         // Construct the southPanel 
@@ -249,7 +251,7 @@ public class JavaDicMain extends JFrame implements ActionListener {
         
     }
 
-
+    /*
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -307,6 +309,6 @@ public class JavaDicMain extends JFrame implements ActionListener {
         }        
         
 	}
-
+	*/
    
 }  //end of class
