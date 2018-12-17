@@ -82,7 +82,7 @@ public class JDBCJavaDicDAO implements JavaDicDAO {
             
         } catch (Exception ex) {
             //Logger.getLogger(JavaDicMain.class.getName()).log(Level.SEVERE, null, ex);
-        	System.out.print(ex);
+        	textArea.setText(ex.getMessage());
         }
     }
 
@@ -125,7 +125,7 @@ public class JDBCJavaDicDAO implements JavaDicDAO {
 
         } catch (Exception e) {
             // something went wrong, we are handling the exception here    
-        	System.out.print(e);
+        	textArea.setText(e.getMessage());
         } finally {        	
             // close db resources 
         	//System.out.print(combo.getItemCount());
@@ -144,8 +144,7 @@ public class JDBCJavaDicDAO implements JavaDicDAO {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.print(e);
+			textArea.setText(e.getMessage());
 		}
         textArea.setText("");
         JOptionPane.showMessageDialog(null, s + " delete completed");
@@ -166,8 +165,8 @@ public class JDBCJavaDicDAO implements JavaDicDAO {
 	        
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.print(e);
+			textArea.setText(e.getMessage());
+			
 		}
         
         sqlQueryList(vectorCombo);
@@ -203,8 +202,9 @@ public class JDBCJavaDicDAO implements JavaDicDAO {
 		    sqlQueryDisplay(name);	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.print(e);
+			//e.printStackTrace();
+			//System.out.print(e);
+			textArea.setText(e.getMessage());
 		}
 	}
  
