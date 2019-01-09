@@ -20,11 +20,11 @@ class HSBC2 implements BankInterface {
 		System.out.println("HSBC interest implemented");
 	}
 
-	@Override
-	public void deposit() {
+	//@Override
+	//public void deposit() {
 		// TODO Auto-generated method stub
-		System.out.println("HSBC deposit  implemented");
-	}
+	//	System.out.println("HSBC deposit  implemented");
+	//}
 
 	@Override
 	public void withdrow() {
