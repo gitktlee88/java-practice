@@ -1,3 +1,13 @@
+abstract class Bank {
+	public void deposit(){
+		System.out.println("Common deposit method across all Banks");
+	}
+	
+	public void withdrow(){
+		System.out.println("Common withdrow method across all Banks");
+	}
+	public abstract int calcinterest();
+}
 
 public class AbstractClassDemo {
 
@@ -12,17 +22,6 @@ public class AbstractClassDemo {
 		barclays .withdrow();
 		barclays .calcinterest();		
 	}
-}
-
-abstract class Bank {
-	public void deposit(){
-		System.out.println("Common deposit method across all Banks");
-	}
-	
-	public void withdrow(){
-		System.out.println("Common withdrow method across all Banks");
-	}
-	public abstract int calcinterest();
 }
 
 class HSBC extends Bank {
