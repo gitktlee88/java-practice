@@ -5,10 +5,12 @@ import java.util.concurrent.Executors;
 public class UsingFixedThreadPool {
 
 	public static void main(String[] args) {
-		System.out.println("main thread start here...");
-		
-		ExecutorService execService = Executors.newFixedThreadPool(3);
-	
+		//Finding number of Cores in Java
+		int cores = Runtime.getRuntime().availableProcessors();		
+		System.out.println("main thread start here...cores# " + cores);		
+
+		ExecutorService execService = Executors.newFixedThreadPool(cores);	
+			
 		execService.execute(new LoopTaskA());
 		execService.execute(new LoopTaskA());
 		execService.execute(new LoopTaskA());
