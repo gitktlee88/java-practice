@@ -21,21 +21,20 @@ public class fileMoveRenameDelete
 			System.out.println("Failed to move the file"); 
 		} 
 
+		// Java program to illustrate Copying the file and deleting the original file 
 
-// Java program to illustrate Copying the file and deleting the original file 
-
-    File file = new File("C:\\Users\\Mayank\\Desktop\\1.txt"); 
+    		File file = new File("C:\\Users\\Mayank\\Desktop\\1.txt"); 
           
-    // renaming the file and moving it to a new location 
-    if(file.renameTo (new File("C:\\Users\\Mayank\\Desktop\\dest\\newFile.txt"))) 
-    { 
-        // if file copied successfully then delete the original file 
-        file.delete(); 
-        System.out.println("File moved successfully"); 
-    } 
-    else
-    { 
-        System.out.println("Failed to move the file"); 
-    }    
+    		// renaming the file and moving it to a new location 
+    		if(file.renameTo (new File("C:\\Users\\Mayank\\Desktop\\dest\\newFile.txt"))) 
+    		{ 
+        		// if file copied successfully then delete the original file 
+        		file.delete(); 
+        		System.out.println("File moved successfully"); 
+    		} 
+    		else
+    		{ 
+        		System.out.println("Failed to move the file"); 
+    		}    
 	} 
 } 
