@@ -41,7 +41,7 @@ class HashMapIterate {
 			// Add some bonus marks 
 			// to all the students and print it 
 			int value = ((int)mapElement.getValue() + 10); 
-
+			hm.replace(key, value);
 			System.out.println(key + " : " + value); 
 		} 
 		
