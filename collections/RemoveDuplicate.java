@@ -88,7 +88,7 @@ public class RemoveDuplicate {
 		Collections.sort(newList);
 		System.out.println("ArrayList with descending-sorted: " + newList); 
 		
-		GFG.intSort();
+		RemoveDuplicate.intSort();
 		descendingSort();
 		collectionsSort();
 		
