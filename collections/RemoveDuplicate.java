@@ -84,9 +84,9 @@ public class RemoveDuplicate {
 		// Print the ArrayList with duplicates removed 
 		System.out.println("ArrayList with duplicates removed: " + newList); 
 		
-		//sort in descending order
+		//sort in default, ascending order
 		Collections.sort(newList);
-		System.out.println("ArrayList with descending-sorted: " + newList); 
+		System.out.println("ArrayList with default, ascending-sorted: " + newList); 
 		
 		RemoveDuplicate.intSort();
 		descendingSort();
