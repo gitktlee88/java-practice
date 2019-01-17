@@ -4,7 +4,7 @@
 import java.util.*; 
 import java.util.Arrays; 
 
-public class GFG { 
+public class RemoveDuplicate { 
 
 	// Function to remove duplicates from an ArrayList 
 	public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) 
@@ -65,7 +65,7 @@ public class GFG {
 		Collections.sort(al, Collections.reverseOrder()); 
 
 		// Let us print the sorted list 
-		System.out.println("List after the use of" + " Collection.sort() :\n" + al); 
+		System.out.println("Collection.sort() elements of ArrayList<String> : " + al + '\n'); 
 	} 	
 	
 	// Driver code 
