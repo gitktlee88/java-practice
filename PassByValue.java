@@ -1,4 +1,4 @@
-//•	Pass by Value: The method parameter values are copied to another variable and then the copied object is passed.
+//•	Pass by Value: The method parameter values are copied to another variable(referrence) and then the copied object is passed.
 //•	Pass by Reference: An alias or reference to the actual parameter is passed to the method.
 
 class Balloon {
