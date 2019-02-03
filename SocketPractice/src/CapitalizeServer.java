@@ -19,7 +19,7 @@ public class CapitalizeServer {
     /**
      * Application method to run the server listening on port 9898. When a client
      * connects, the server spawns a new thread to do the servicing and immediately
-     * returns to listening. Just for fun, he server keeps a unique client id for each
+     * returns to listening. Just for fun, the server keeps a unique client id for each
      * client to show interesting logging messages.
      */
     public static void main(String[] args) throws Exception {
