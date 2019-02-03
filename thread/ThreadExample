@@ -1,0 +1,105 @@
+public class ThreadExample extends Thread {
+
+    // run() method contains the code that is executed by the thread.
+    @Override
+    public void run() {
+        System.out.println("Inside : " + Thread.currentThread().getName());
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Inside : " + Thread.currentThread().getName());
+
+        System.out.println("Creating thread...");
+        Thread thread = new ThreadExample();
+
+        System.out.println("Starting thread...");
+        thread.start();
+    }
+}
+
+
+
+# Output
+Inside : main
+Creating thread...
+Starting thread...
+Inside : Thread-0
+
+
+public class RunnableExample implements Runnable {
+
+    public static void main(String[] args) {
+        System.out.println("Inside : " + Thread.currentThread().getName());
+
+        System.out.println("Creating Runnable...");
+        Runnable runnable = new RunnableExample();
+
+        System.out.println("Creating Thread...");
+        Thread thread = new Thread(runnable);
+
+        System.out.println("Starting Thread...");
+        thread.start();
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Inside : " + Thread.currentThread().getName());
+    }
+}
+
+
+# Output
+Inside : main
+Creating Runnable...
+Creating Thread...
+Starting Thread...
+Inside : Thread-0
+
+
+
+Anonymous classes enable you to make your code more concise. 
+They enable you to declare and instantiate a class at the same time. - From Java doc.
+
+public class RunnableExampleAnonymousClass {
+
+    public static void main(String[] args) {
+        System.out.println("Inside : " + Thread.currentThread().getName());
+
+        System.out.println("Creating Runnable...");
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Inside : " + Thread.currentThread().getName());
+            }
+        };
+
+        System.out.println("Creating Thread...");
+        Thread thread = new Thread(runnable);
+
+        System.out.println("Starting Thread...");
+        thread.start();
+    }
+}
+
+
+The above example can be made even shorter by using Java 8’s lambda expression -
+
+public class RunnableExampleLambdaExpression {
+
+    public static void main(String[] args) {
+        System.out.println("Inside : " + Thread.currentThread().getName());
+
+        System.out.println("Creating Runnable...");
+        Runnable runnable = () -> {
+            System.out.println("Inside : " + Thread.currentThread().getName());
+        };
+
+        System.out.println("Creating Thread...");
+        Thread thread = new Thread(runnable);
+
+        System.out.println("Starting Thread...");
+        thread.start();
+
+    }
+}
+
