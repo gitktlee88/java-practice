@@ -1,15 +1,15 @@
-<< Runnable or Thread, Which one to use? >>
-
-The first method, where you create a thread by extending from Thread class is very limited because once you 
-extend your class from Thread, you cannot extend from any other class since Java doesn’t allow multiple inheritance.
-Also, 
-If you follow good design practice, Inheritance is meant for extending the functionality of the parent class, 
-but when you create a thread, you don’t extend the functionality of Thread class, 
-you merely provide the implementation of run() method.
-
-So, In general, You should always use Runnable object to create a thread. This method is more flexible. 
-It allows your class to extend from any other class. 
-Also, you can use anonymous class syntax and Java 8’s lambda expression with Runnable to make your code more concise.
+//<< Runnable or Thread, Which one to use? >>
+//
+// The first method, where you create a thread by extending from Thread class is very limited because once you 
+// extend your class from Thread, you cannot extend from any other class since Java doesn’t allow multiple inheritance.
+// Also, 
+// If you follow good design practice, Inheritance is meant for extending the functionality of the parent class, 
+// but when you create a thread, you don’t extend the functionality of Thread class, 
+// you merely provide the implementation of run() method.
+//
+// So, In general, You should always use Runnable object to create a thread. This method is more flexible. 
+// It allows your class to extend from any other class. 
+// Also, you can use anonymous class syntax and Java 8’s lambda expression with Runnable to make your code more concise.
 
 
 
