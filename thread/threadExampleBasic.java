@@ -1,3 +1,4 @@
+
 //<< Runnable or Thread, Which one to use? >>
 //
 // The first method, where you create a thread by extending from Thread class is very limited because once you 
