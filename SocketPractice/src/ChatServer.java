@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.Set;
 import java.util.HashSet;
 
-/**
+/*
  * A multithreaded chat room server. When a client connects the server requests a screen
  * name by sending the client the text "SUBMITNAME", and keeps requesting a name until
  * a unique one is received. After a client submits a unique name, the server acknowledges
@@ -23,24 +23,19 @@ import java.util.HashSet;
  *
  *     2. The server should do some logging.
  */
+
 public class ChatServer {
 
     private static final int PORT = 9001;
 
-    /**
-     * The set of all names of clients in the chat room. Maintained so that we can check
-     * that new clients are not registering name already in use.
-     */
+    //* The set of all names of clients in the chat room. Maintained so that we can check
+    //* that new clients are not registering name already in use.    
     private static Set<String> names = new HashSet<>();
-
-    /**
-     * The set of all the print writers for all the clients, used for broadcast.
-     */
+    
+    //* The set of all the print writers for all the clients, used for broadcast.
     private static Set<PrintWriter> writers = new HashSet<>();
 
-    /**
-     * Application that listens on a port and spawns handler threads.
-     */
+    //* Application that listens on a port and spawns handler threads.
     public static void main(String[] args) throws Exception {
         System.out.println("The chat server is running.");
         try (ServerSocket listener = new ServerSocket(PORT)) {
@@ -50,7 +45,7 @@ public class ChatServer {
         }
     }
 
-    /**
+    /*
      * A handler thread class. Handlers are spawned from the listening loop and are
      * responsible for a dealing with a single client and broadcasting its messages.
      */
@@ -59,16 +54,14 @@ public class ChatServer {
         private Socket socket;
         private BufferedReader in;
         private PrintWriter out;
-
-        /**
-         * Constructs a handler thread, squirreling away the socket. All the interesting
-         * work is done in the run method.
-         */
+        
+        // * Constructs a handler thread, squirreling away the socket. All the interesting
+        // * work is done in the run method.
         public Handler(Socket socket) {
             this.socket = socket;
         }
 
-        /**
+        /*
          * Services this thread's client by repeatedly requesting a screen name until a
          * unique one has been submitted, then acknowledges the name and registers the
          * output stream for the client in a global set, then repeatedly gets inputs and
@@ -76,7 +69,6 @@ public class ChatServer {
          */
         public void run() {
             try {
-
                 // Create character streams for the socket.
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -113,6 +105,7 @@ public class ChatServer {
                         writer.println("MESSAGE " + name + ": " + input);
                     }
                 }
+                
             } catch (IOException e) {
                 System.out.println(e);
             } finally {
