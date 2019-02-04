@@ -104,7 +104,9 @@ public class RunnableExampleAnonymousClass {
 }
 
 
-The above example can be made even shorter by using Java 8’s lambda expression -
+// The above example can be made even shorter by using Java 8’s lambda expression -
+
+import java.util.concurrent.TimeUnit;
 
 public class RunnableExampleLambdaExpression {
 
@@ -119,9 +121,23 @@ public class RunnableExampleLambdaExpression {
         System.out.println("Creating Thread...");
         Thread thread = new Thread(runnable);
 
-        System.out.println("Starting Thread...");
+        System.out.println(thread.currentThread().getName() + " Starting new Thread...");
         thread.start();
+        if(thread.isAlive()) {
+        	System.out.println(thread.getName() + " alive");
+        }
+        
+      //Let's wait to see server thread stopped 
+        try {
+			TimeUnit.MILLISECONDS.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        if(!thread.isAlive()) {
+        	System.out.println(thread.getName() + " dead now.");
+        }
 
     }
 }
-
