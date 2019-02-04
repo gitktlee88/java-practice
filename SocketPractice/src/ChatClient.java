@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-/**
+/*
  * A simple Swing-based client for the chat server. Graphically it is a frame with a text
  * field for entering messages and a textarea to see the whole dialog.
  *
@@ -41,7 +41,6 @@ public class ChatClient {
      * the server.
      */
     public ChatClient() {
-
         // Layout GUI
         textField.setEditable(false);
         messageArea.setEditable(false);
@@ -51,20 +50,16 @@ public class ChatClient {
 
         // Add Listeners
         textField.addActionListener(new ActionListener() {
-            /**
-             * Responds to pressing the enter key by sending the contents of the text
-             * field to the server, then clear it in preparation for the next message.
-             */
+            // * Responds to pressing the enter key by sending the contents of the text
+            // * field to the server, then clear it in preparation for the next message.
             public void actionPerformed(ActionEvent e) {
                 out.println(textField.getText());
                 textField.setText("");
             }
         });
     }
-
-    /**
-     * Prompt for and return the address of the server.
-     */
+    
+    // * Prompt for and return the address of the server.
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
             frame,
@@ -72,10 +67,8 @@ public class ChatClient {
             "Welcome to the Chatter",
             JOptionPane.QUESTION_MESSAGE);
     }
-
-    /**
-     * Prompt for and return the desired screen name.
-     */
+   
+    // * Prompt for and return the desired screen name.
     private String getName() {
         return JOptionPane.showInputDialog(
             frame,
@@ -84,9 +77,7 @@ public class ChatClient {
             JOptionPane.PLAIN_MESSAGE);
     }
 
-    /**
-     * Connects to the server then enters the processing loop.
-     */
+    // * Connects to the server then enters the processing loop.
     private void run() throws IOException {
 
         // Make connection and initialize streams
@@ -109,9 +100,7 @@ public class ChatClient {
         }
     }
 
-    /**
-     * Runs the client as an application with a closeable frame.
-     */
+    // * Runs the client as an application with a closeable frame.
     public static void main(String[] args) throws Exception {
         ChatClient client = new ChatClient();
         client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
