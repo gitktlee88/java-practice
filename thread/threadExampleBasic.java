@@ -1,24 +1,29 @@
 /*
 //<< Runnable or Thread, Which one to use? >>
 //
-// The first method, where you create a thread by extending from Thread class is very limited because once you 
-// extend your class from Thread, you cannot extend from any other class since Java doesn’t allow multiple inheritance.
+// The first method, where you create a thread by extending from Thread class is 
+// very limited because once you extend your class from Thread, you cannot extend 
+// from any other class since Java doesn’t allow multiple inheritance.
 // Also, 
-// If you follow good design practice, Inheritance is meant for extending the functionality of the parent class, 
-// but when you create a thread, you don’t extend the functionality of Thread class, 
+// If you follow good design practice, Inheritance is meant for extending 
+// the functionality of the parent class, but when you create a thread, 
+// you don’t extend the functionality of Thread class, 
 // you merely provide the implementation of run() method.
 //
-// So, In general, You should always use Runnable object to create a thread. This method is more flexible. 
+// So, In general, You should always use Runnable object to create a thread. 
+// This method is more flexible. 
 // It allows your class to extend from any other class. 
-// Also, you can use anonymous class syntax and Java 8’s lambda expression with Runnable to make your code more concise.
+// Also, you can use anonymous class syntax and Java 8’s lambda expression 
+// with Runnable to make your code more concise.
 
 // << Why don’t we call run() method directly, why call start() method? >>
 
-// We can call run() method if we want but then it would behave just like a normal method and we would not be 
-// able to take the advantage of multithreading. 
-// When the run method gets called though start() method then a new separate thread is being allocated to 
-// the execution of run method, so if more than one thread calls start() method that means their run method is 
-// being executed by separate threads (these threads run simultaneously).
+// We can call run() method if we want but then it would behave just like 
+// a normal method and we would not be able to take the advantage of multithreading. 
+// When the run method gets called though start() method then a new separate thread 
+// is being allocated to the execution of run method, so if more than one thread calls 
+// start() method that means their run method is being executed by separate threads 
+// (these threads run simultaneously).
 */
 
 public class ThreadExample extends Thread {
