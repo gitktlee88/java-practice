@@ -1,4 +1,4 @@
-
+/*
 //<< Runnable or Thread, Which one to use? >>
 //
 // The first method, where you create a thread by extending from Thread class is very limited because once you 
@@ -19,7 +19,7 @@
 // When the run method gets called though start() method then a new separate thread is being allocated to 
 // the execution of run method, so if more than one thread calls start() method that means their run method is 
 // being executed by separate threads (these threads run simultaneously).
-
+*/
 
 public class ThreadExample extends Thread {
 
