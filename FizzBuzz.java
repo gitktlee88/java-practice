@@ -50,8 +50,8 @@ public class FizzBuzz {
 //       int endnum = Integer.valueOf(end);
        
        //this console read works on command line not on IDE(Eclipse)
-//		  System.out.println("Enter end number: ");
-//	    String end = System.console().readLine();
+//	System.out.println("Enter end number: ");
+//	String end = System.console().readLine();
 //      int endnum = Integer.valueOf(end);
        
        Scanner scanner = new Scanner(System.in);
