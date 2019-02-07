@@ -1,5 +1,6 @@
-// Java program to remove duplicates from ArrayList 
-// and Array.sort() & Collections.sort()
+/* Java program to remove duplicates from ArrayList 
+   and Array.sort() & Collections.sort()
+*/
 
 import java.util.*; 
 import java.util.Arrays; 
