@@ -3,6 +3,7 @@ package com.swing;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 import javax.swing.JButton;
@@ -59,25 +60,35 @@ public class EuroMill extends JFrame implements ActionListener
         }
     }
     
-    public int[] guessNums(int min, int max){
+    public int[] guessNums(int min, int max){    	
     	
     	int[] nums = new int[5]; 
+    	Random rand = new Random();
     	
     	for (int i = 0; i <5; i++){
-    		Integer  a = (int) ((Math.random()*((max-min)+1))+min);
-    		//System.out.println(((Object)a).getClass().getName());
+    		//int a = (int) (Math.random()*50 + 1);
+    		double d = Math.random()*((max - min) + 1);
+    		//System.out.println(d);
+    		
+    		int a = min + (int)(d);
+    		
     		//boolean contains = Arrays.stream(values).anyMatch("s"::equals);
+    		
     		boolean contains = IntStream.of(nums).anyMatch(x -> x == a);
     		
-    		if ( !contains){    			
-    			//System.out.println(a.intValue());
-    			if (a.intValue() != 0d)	nums[i] = a;
+    		if ( !contains){    			    			
+    			if (a != 0)	{
+    				//System.out.println(Integer.valueOf(a));
+    				//System.out.println(String.valueOf(a));
+    				//System.out.println(((Object)a).getClass().getName());
+    				nums[i] = a;
+    			}
     		}
     	
     	}	
     	
-    	Arrays.sort(nums);
-    	
+    	//Arrays.sort(nums);
+    	System.out.println((int)(25.018927355080212));
     	return nums;
     }
     
