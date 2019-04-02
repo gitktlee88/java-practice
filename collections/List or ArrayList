@@ -1,0 +1,13 @@
+1, List<String> arrayList = new ArrayList<String>();
+
+Is generic where you want to hide implementation details while returning it to client, 
+at later point of time you may change implementation from ArrayList to LinkedList transparently.
+
+This mechanism is useful in cases where you design libraries etc., which may change their implementation details 
+at some point of time with minimal changes on client side.
+
+2, ArrayList<String> arrayList = new ArrayList<String>();
+
+This mandates you always need to return ArrayList. 
+At some point of time if you would like to change implementation details to LinkedList, 
+there should be changes on client side also to use LinkedList instead of ArrayList.
