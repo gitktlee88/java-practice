@@ -13,17 +13,17 @@
 
 4, List.of doesn't allow null elements while Arrays.asList allows null elements.
 
-<> Method references :: are awesome is that:
+<> What is double colon (::) operator in Java 8 - Example
+The double colon (::) operator is known as the method reference in Java 8. 
+Method references are expressions which have the same treatment as a lambda expression, 
+but instead of providing a lambda body, they refer to an existing method by name. 
 
-Method references are expressions which have the same treatment as lambda expressions (...), 
-but instead of providing a method body, they refer an existing method by name.
+For example, to print all elements of the list you can use the forEach() method as follows
 
-Ex, instead of writing the lambda body
-Function<Double, Double> square = (Double x) -> x * x;
+list.stream.forEach( s-> System.out.println(s));
 
-You can simply do like
-Function<Double, Double> square = Hey::square;
+but here you can replace lambda expression with method reference to improve readability as shown below:
 
-At runtime, these two square methods behave exactly the same as each other. 
-The bytecode may or may not be the same 
-(though, for the above case, the same bytecode is generated; compile the above and check with javap -c).
+list.stream.forEach( System.out::println);
+
+You can use method reference or double colon operator to refer a static method, an instance method, or a constructor.
