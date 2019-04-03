@@ -12,3 +12,18 @@
    (Immutable collection instances generally consume much less memory than their mutable counterparts.)
 
 4, List.of doesn't allow null elements while Arrays.asList allows null elements.
+
+<> Method references :: are awesome is that:
+
+Method references are expressions which have the same treatment as lambda expressions (...), 
+but instead of providing a method body, they refer an existing method by name.
+
+Ex, instead of writing the lambda body
+Function<Double, Double> square = (Double x) -> x * x;
+
+You can simply do like
+Function<Double, Double> square = Hey::square;
+
+At runtime, these two square methods behave exactly the same as each other. 
+The bytecode may or may not be the same 
+(though, for the above case, the same bytecode is generated; compile the above and check with javap -c).
